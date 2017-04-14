@@ -1,3 +1,82 @@
-<h1>
-  {{title}}
-</h1>
+<hr/>
+<h1>Add new Recipe Here</h1>
+<form>
+    <div class="form-group" [hidden]="addIngredients">
+    <label for="name">Recipe Name</label>
+    <input type="text" class="form-control" id="name" placeholder="menu item name" [(ngModel)]="menuitemName" name="name">
+    <button (click)="start()">Start!</button>
+    </div>
+    <div *ngIf="addIngredients">
+        <hr />
+        <h3>{{menuitemName}}</h3>
+     <ul>
+        <li *ngFor="let ingredient of ingredients"><strong>{{ingredient.name}} : </strong>KG: {{ingredient.quantity}}
+     </ul>
+    </div>
+    <div class="form-group" *ngIf="addIngredients" >
+    <hr />
+    <h4>Add ingredients:</h4>
+    <select class="custom-select mb-2 mr-sm-2 mb-sm-0"  name="ingredient" id="ingQuantity" [(ngModel)]="ingName">
+     <option>Choose ingredient</option>
+        <optgroup label="Fruit">
+                            <option value="apples">Apple</option>
+                            <option value="bananas">Banana</option>
+                            <option value="berries">Berries</option>
+                            <option value="dates">Dates</option>
+                            <option value="lemons">Lemon</option>
+                            <option value="limes">Lime</option>
+                            <option value="mango">Mango</option>                           
+                            <option value="orange">Orange</option>                                                                            
+                            <option value="pineapple">Pineapple</option>
+        </optgroup>
+        <optgroup label="Vegetables">
+                            <option value="agave">Agave</option>
+                            <option value="beetroots">Beetroot</option>
+                            <option value="carrots">Carrot</option>
+                            <option value="celery">Celery</option>
+                            <option value="cucumbers">Cucumber</option>
+                            <option value="kale">Kale</option>
+        </optgroup>
+        <optgroup label="Roots and Herbs">
+                            <option value="ginger">Ginger</option>
+                            <option value="mint">Mint</option>
+                            <option value="tumeric">Tumeric</option>
+        <optgroup label="Milk">
+                            <option value="almond milk">Almond Milk</option>
+                            <option value="coconut milk">Coconut Milk</option>
+                            <option value="hazelnut milk">Hazelnut Milk</option>
+                            <option value="oat milk">Oat Milk</option>
+                            <option value="rice milk">Rice Milk</option>
+                            <option value="soya milk">Soya Milk</option>
+                            <option value="semi skimmed milk">Semi Skimmed Milk</option>
+                            <option value="skimmed milk">Skimmed Milk</option>
+        </optgroup>
+        <optgroup label="Chocolate">
+                            <option value="dark chocolate">Dark chocolate</option>
+                            <option value="milk chocolate">Milk chocolate</option>
+                            <option value="white chocolate">White chocolate</option>
+        </optgroup>
+        <optgroup label="Coffee">
+                            <option value="coffee">Coffee</option>
+                            <option value="decaf coffee">Decaff Coffee</option>
+        </optgroup>
+        <optgroup label="Other">
+                            <option value="cinnamon">Cinnamon</option>
+                            <option value="peanut butter">Peanut Butter</option>
+                            <option value="tea">Tea</option>
+                            </optgroup>
+       </select>
+      <label for="quantity">gr:</label>
+      <input type="text" class="form-control" id="quantity" [(ngModel)]="ingQuantity" name="ingredientquantity">
+        <br />
+        <button (click)="addOne()">Add Ingredient</button><hr/>
+  </div>
+  <label for="price" [hidden]="!addIngredients">Price:</label>
+  <input type="text" class="form-control" id="price" [hidden]="!addIngredients" placeholder="price" [(ngModel)]="itemPrice" name="price">
+  <button (click)="addRecipe()" [hidden]="!addIngredients">Done!</button>
+</form>
+<hr/>
+<div *ngFor="let recipe of recipes | async">
+<strong>{{recipe.$key}}</strong> cost: {{recipe.CostProfit.Cost}}
+  <!--{{recipe | json}}-->
+</div>
