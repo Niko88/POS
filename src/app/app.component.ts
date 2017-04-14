@@ -67,13 +67,12 @@ export class AppComponent {
           this.database.setObject('products/'+this.menuitemName+'/CostProfit/Price',this.itemPrice);//Set the price for the item
           this.database.removeObject('products/'+this.menuitemName+'/recipe/firstIng');//Erase the first placeholder ingredient
           this.itemPrice = null;//reset everything and empty ingredients list
-          this.ingredients = [];
+          this.ingredients.length = 0;
           this.numberIngredients = 0;
           this.menuitemName = '';
           this.ingName = "Choose ingredient";
           this.ingQuantity = null;
           this.addIngredients = false;
-          this.ingredients[this.numberIngredients]=({name:this.ingName,quantity:this.quantity});
       }
     }
   }
