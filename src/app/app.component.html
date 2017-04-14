@@ -1,7 +1,7 @@
 <hr/>
 <h1>Add new Recipe Here</h1>
 <form>
-    <div class="form-group" [hidden]="addIngredients">
+    <div class="form-group" *ngIf="addIngredients">
     <label for="name">Recipe Name</label>
     <input type="text" class="form-control" id="name" placeholder="menu item name" [(ngModel)]="menuitemName" name="name">
     <button (click)="start()">Start!</button>
@@ -73,7 +73,7 @@
   </div>
   <label for="price" [hidden]="!addIngredients">Price:</label>
   <input type="text" class="form-control" id="price" [hidden]="!addIngredients" placeholder="price" [(ngModel)]="itemPrice" name="price">
-  <button (click)="addRecipe()" [hidden]="!addIngredients">Done!</button>
+  <button (click)="addRecipe()" *ngIf="addIngredients">Done!</button>
 </form>
 <hr/>
 <div *ngFor="let recipe of recipes | async">
