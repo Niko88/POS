@@ -63,4 +63,23 @@ exports.profitWorker = functions.database.ref('/products/{productName}/CostProfi
         });
            }      
     });
+
+    exports.stockManager = functions.database.ref('/2017/{month}/{week}/{day}/{item}')//stock manager manages the database stock
+    .onWrite(event => {
+      var rootref = event.data.ref.root;
+      if(event.params.item == 'GrossProfit' || event.params.item == 'Sales'){//If event is triggered for a change in Sales/Gross profit ignore
+         return null;
+      }
+      var quantityAdded = 1;
+       if(event.data.previous.exists)//check how many items have been added
+          quantityAdded = event.data.val()-event.data.previous.val();//if this is not the first entry for the day work out quantity added
+        rootref.child('products/'+event.params.item+'/recipe').once('value',function(snapshot){//Get all the ingredients for the item
+          snapshot.forEach(function(element) {//for every ingredient
+            rootref.child('stock/'+element.key+'/quantity').once('value',function(quantity){//get the quantity in stock
+              return rootref.child('stock/'+element.key+'/quantity').set(quantity.val()-(element.val()*quantityAdded));//subtract from the stock the quantity needed (times quantity added)
+            });
+          });
+      });
+      
+    });
   
