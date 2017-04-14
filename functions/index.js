@@ -19,8 +19,13 @@ exports.costWorker = functions.database.ref('/products/{productName}/ingredients
         rootref.child('products/'+event.params.productName+'/CostProfit/Cost').once('value',function(snapshot){//Get the cost for the recipe
           if(snapshot == null)//If the entry does not exist set it to the price of the current ingredient
             return rootref.child('products/'+event.params.productName+'/CostProfit/Cost').set(event.data.val());
-        var cost = snapshot.val();//else add the price of the ingredient to the total
-        var total = event.data.val()+cost;
+          var modification;
+          var cost = snapshot.val();//else add the price of the ingredient to the total
+            if(event.data.previous.exists())
+              modification = event.data.val()-event.data.previous.val();
+              else
+              modification = event.data.val();
+          var total = modification+cost;
         return rootref.child('products/'+event.params.productName+'/CostProfit/Cost').set(total);
         });
     });
